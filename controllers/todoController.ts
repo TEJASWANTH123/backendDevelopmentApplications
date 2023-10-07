@@ -1,21 +1,18 @@
-// src/controllers/todoController.ts
 import { Request, Response } from 'express';
-<<<<<<< HEAD
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
-=======
->>>>>>> origin/main
 
 interface Task {
-    id: number;
+    id?: number;
     title: string;
 }
 
-<<<<<<< HEAD
+const databaseFile = 'mydatabase.sqlite'; // Specify the path to your SQLite database file
+
 export const getTasks = async (req: Request, res: Response): Promise<void> => {
     try {
         const db = await open({
-            filename: '../mydatabase.sqlite', // Path to your SQLite database file
+            filename: databaseFile,
             driver: sqlite3.Database,
         });
 
@@ -31,8 +28,13 @@ export const createTask = async (req: Request, res: Response): Promise<void> => 
     try {
         const { title } = req.body;
 
+        if (!title) {
+            res.status(400).json({ message: 'Title is required' });
+            return;
+        }
+
         const db = await open({
-            filename: '../mydatabase.sqlite', // Path to your SQLite database file
+            filename: databaseFile,
             driver: sqlite3.Database,
         });
 
@@ -46,14 +48,18 @@ export const createTask = async (req: Request, res: Response): Promise<void> => 
     }
 };
 
-// Implement updateTask and deleteTask similarly
 export const updateTask = async (req: Request, res: Response): Promise<void> => {
     try {
         const taskId = parseInt(req.params.id);
         const { title } = req.body;
 
+        if (!title) {
+            res.status(400).json({ message: 'Title is required' });
+            return;
+        }
+
         const db = await open({
-            filename: '../mydatabase.sqlite', // Path to your SQLite database file
+            filename: databaseFile,
             driver: sqlite3.Database,
         });
 
@@ -76,7 +82,7 @@ export const deleteTask = async (req: Request, res: Response): Promise<void> => 
         const taskId = parseInt(req.params.id);
 
         const db = await open({
-            filename: '../mydatabase.sqlite', // Path to your SQLite database file
+            filename: databaseFile,
             driver: sqlite3.Database,
         });
 
@@ -93,45 +99,3 @@ export const deleteTask = async (req: Request, res: Response): Promise<void> => 
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-=======
-const tasks: Task[] = [];
-
-export const getTasks = (req: Request, res: Response): void => {
-    res.json(tasks);
-};
-
-export const createTask = (req: Request, res: Response): void => {
-    const { title } = req.body;
-    const id = tasks.length + 1;
-    const newTask: Task = { id, title };
-    tasks.push(newTask);
-    res.status(201).json({ message: 'Task created successfully', task: newTask });
-};
-
-export const updateTask = (req: Request, res: Response): void => {
-    const taskId = parseInt(req.params.id);
-    const { title } = req.body;
-
-    const taskToUpdate = tasks.find(task => task.id === taskId);
-    if (!taskToUpdate) {
-        res.status(404).json({ message: 'Task not found' });
-        return;
-    }
-
-    taskToUpdate.title = title;
-    res.json({ message: 'Task updated successfully', task: taskToUpdate });
-};
-
-export const deleteTask = (req: Request, res: Response): void => {
-    const taskId = parseInt(req.params.id);
-
-    const taskIndex = tasks.findIndex(task => task.id === taskId);
-    if (taskIndex === -1) {
-        res.status(404).json({ message: 'Task not found' });
-        return;
-    }
-
-    const deletedTask = tasks.splice(taskIndex, 1);
-    res.json({ message: 'Task deleted successfully', deletedTask });
-};
->>>>>>> origin/main

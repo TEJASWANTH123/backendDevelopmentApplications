@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import express from 'express';
 import cors from 'cors';
 import todoRoutes from './routes/todoRoutes';
@@ -14,19 +14,10 @@ app.use('/api', todoRoutes);
 // Set up the Swagger UI route using the updated Swagger JSON file
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(multer);
-=======
+
 // src/app.ts
-import express from 'express';
-import cors from 'cors';
-import todoRoutes from './routes/todoRoutes';
 
-const app = express();
 
-app.use(cors());
-app.use(express.json());
-
-app.use('/api', todoRoutes);
->>>>>>> origin/main
 
 const PORT = 3000;
 
