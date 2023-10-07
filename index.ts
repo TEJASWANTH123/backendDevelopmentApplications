@@ -6,13 +6,8 @@ const swaggerDocument = require('./swagger.json'); // Your updated Swagger JSON 
 import multer from 'multer';
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
-
-
-
-
 app.use('/api', todoRoutes);
 
 // Set up the Swagger UI route using the updated Swagger JSON file
